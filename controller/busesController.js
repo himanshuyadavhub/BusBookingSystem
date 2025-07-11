@@ -1,35 +1,41 @@
-const db = require("../utils/db-connection")
+const { Op } = require("sequelize");
 
-function addBuses(req,res){
-    const {busNumber,totalSeats,availableSeats} = req.body;
-    const insertQuery = "INSERT INTO Buses(busNumber,totalSeats,availableSeats) VALUES (?,?,?);"
-    db.execute(insertQuery,[busNumber,totalSeats,availableSeats],(err)=>{
-        if(err){
-            console.log(err.message);
-            res.status(500).send("New bus was not added!");
-            db.end();
-            return;
-        }
-        res.status(200).send(`Bus ${busNumber} has been added!`);
-    })
+const db = require("../utils/db-connection")
+const Bus = require("../models/Bus");
+
+async function addBuses(req, res) {
+    const { busNumber, totalSeats, availableSeats } = req.body;
+    try {
+        const addedBus = await Bus.create({busNumber, totalSeats, availableSeats});
+        console.log(`Added Bus`, addedBus);
+        res.status(200).send(`Bus with number ${busNumber} created successfully..`);
+    } catch (error) {
+        console.log("Bus adding went wrong", error.message)
+        res.status(500).send("New bus was not added!");
+    }
 }
 
-function getBusesAvailable(req,res){
+async function getBusesAvailable(req, res) {
     const requiredSeats = req.params.seats;
-    const findQuery = "SELECT * FROM Buses WHERE availableSeats > (?);"
-    db.execute(findQuery,[requiredSeats],(err,result)=>{
-        if(err){
-            console.log(err.message);
-            res.status(500).send("Something went wrong..");
-            db.end();
+
+    try {
+        const availableBuses = await Bus.findAll({
+            where: {
+                availableSeats: {
+                    [Op.gt]: requiredSeats
+                }
+            }
+        });
+        if (availableBuses.length) {
+            res.status(200).send(availableBuses);
             return;
         }
-        if(result.length){
-            res.status(200).send(result);
-        }else{
-            res.status(200).send("No buses available..");
-        }
-    })
+        res.status(200).send("No buses available..");
+
+    } catch (error) {
+        console.log("Getting available bus failed", error.message)
+        res.status(500).send("Getting available bus failed..");
+    }
 
 }
 

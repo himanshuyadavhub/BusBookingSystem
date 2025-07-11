@@ -1,10 +1,14 @@
 const express = require("express");
 const app = express();
 const db = require("./utils/db-connection");
+const Booking = require("./models/Bookings");
+const Bus = require("./models/Bus");
+const Payments = require("./models/Payments");
+const Users = require("./models/Users");
 
 const usersRoutes = require("./routes/usersRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
-const bookingRoutes = require("./routes/bookingRoutes");
+// const paymentRoutes = require("./routes/paymentRoutes");
+// const bookingRoutes = require("./routes/bookingRoutes");
 const busesRoutes = require("./routes/busesRoutes");
 
 app.use(express.json());
