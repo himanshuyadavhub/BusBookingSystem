@@ -11,14 +11,14 @@ const Booking = sequelize.define("booking", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  userId:{
-    type:DataTypes.INTEGER,
-    allowNull:false
-  },
-  busId:{
-    type:DataTypes.INTEGER,
-    allowNull:false
-  }
+  // userId:{
+  //   type:DataTypes.INTEGER,
+  //   allowNull:false
+  // },
+  // busId:{
+  //   type:DataTypes.INTEGER,
+  //   allowNull:false
+  // }
 });
 
 module.exports = Booking;

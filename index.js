@@ -1,22 +1,21 @@
 const express = require("express");
 const app = express();
 const db = require("./utils/db-connection");
-const Booking = require("./models/Bookings");
-const Bus = require("./models/Bus");
+const {Users,Bus,Bookings} = require("./models/associations")
 const Payments = require("./models/Payments");
-const Users = require("./models/Users");
 
 const usersRoutes = require("./routes/usersRoutes");
 // const paymentRoutes = require("./routes/paymentRoutes");
-// const bookingRoutes = require("./routes/bookingRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 const busesRoutes = require("./routes/busesRoutes");
 
 app.use(express.json());
 
 app.use("/users",usersRoutes);
 app.use("/buses",busesRoutes);
+app.use("/booking",bookingRoutes);
 // app.use("/payment",paymentRoutes);
-// app.use("/booking",bookingRoutes);
+
 
 app.get("/", (req, res) => {
     res.send("This is BUS BOOKING SYSTEM");

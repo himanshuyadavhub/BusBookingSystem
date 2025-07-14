@@ -1,5 +1,5 @@
 const db = require("../utils/db-connection")
-const Users = require("../models/Users");
+const {Users} = require("../models/associations");
 
 
 

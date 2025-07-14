@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 
 const db = require("../utils/db-connection")
-const Bus = require("../models/Bus");
+const {Bus} = require("../models/associations");
 
 async function addBuses(req, res) {
     const { busNumber, totalSeats, availableSeats } = req.body;
